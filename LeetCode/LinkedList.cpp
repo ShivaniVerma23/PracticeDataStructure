@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -68,7 +69,7 @@ public:
     }
     List *mergeSortedList(List *list1, List *list2)
     {
-       if (list1->Head == NULL &&
+        if (list1->Head == NULL &&
             list2->Head == NULL)
             return list1;
         else if (list1->Head == NULL)
@@ -121,15 +122,14 @@ public:
                 if (curr2 == longList->Head)
                     longList->Head = add;
                 else
-                     prev->next = add;
+                    prev->next = add;
                 curr1 = curr1->next;
                 curr2 = add;
-                
             }
             else
             {
-            prev = curr2;
-            curr2 = curr2->next;
+                prev = curr2;
+                curr2 = curr2->next;
             }
         }
         if (curr1 != NULL)
@@ -137,7 +137,49 @@ public:
             prev->next = curr1;
         }
         return longList;
+    }
 
+    List *merge_k_lists(vector<List *> &lists)
+    {
+        int numOfLists = lists.size();
+        Node *mainListNode = NULL;
+        Node *prev = NULL;
+
+        for (int i = 1; i < numOfLists; i++)
+        {
+            Node *mergingNode = lists[i]->Head;
+            Node *mainListNode = lists[0]->Head;
+
+            while (mergingNode != NULL && mainListNode != NULL)
+            {
+                if ((mergingNode->data <= mainListNode->data) &&
+                    mainListNode == lists[0]->Head)
+                {
+                    Node *temp = new Node();
+                    temp->next = mainListNode;
+                    temp->data = mergingNode->data;
+                    mainListNode = temp;
+                    lists[0]->Head = temp;
+                    mergingNode = mergingNode->next;
+                }
+                else if ((mergingNode->data <= mainListNode->data))
+                {
+                    prev->next = mergingNode;
+                    mergingNode = mergingNode->next;
+                    prev->next->next = mainListNode;
+                }
+                else
+                {
+                    prev = mainListNode;
+                    mainListNode = mainListNode->next;
+                }
+            }
+            if (mergingNode != NULL)
+            {
+                prev->next = mergingNode;
+            }
+        }
+        return lists[0];
     }
 };
 
@@ -146,16 +188,33 @@ int main()
     List *obj = new List();
     List *obj1 = new List();
     List *merge = new List();
-    for (int i = -15; i < 1; i++)
-        obj->addNode(i+2);
-    for (int i = -10; i < 2; i++)
-        obj1->addNode(i+3);
+    vector<List *> lists;
+    /*for (int i = 0; i < 3; i++)
+        obj->addNode(i + 2);
+    for (int i = 0; i < 2; i++)
+        obj1->addNode(i + 3);*/
+
+    obj->addNode(1);
+    obj->addNode(13);
+    obj->addNode(22);
+    obj->addNode(23);
+
+    obj1->addNode(2);
+    obj1->addNode(12);
+    obj1->addNode(14);
+
     obj->printList();
     obj1->printList();
     /* obj->reverseList();
      cout << "Reverse List"<<endl;
      obj->printList();*/
-    merge = obj1->mergeSortedList(obj, obj1);
+    // merge = obj1->mergeSortedList(obj, obj1);
+
+    lists.push_back(obj);
+    lists.push_back(obj1);
+
+    merge = obj1->merge_k_lists(lists);
+
     merge->printList();
     return 0;
 }

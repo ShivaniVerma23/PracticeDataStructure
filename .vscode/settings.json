@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "system_error": "cpp",
+        "type_traits": "cpp",
+        "xlocnum": "cpp",
+        "xtr1common": "cpp",
+        "iostream": "cpp",
+        "utility": "cpp",
+        "vector": "cpp"
+    }
+}
