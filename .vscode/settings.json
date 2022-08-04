@@ -8,6 +8,9 @@
         "utility": "cpp",
         "vector": "cpp",
         "queue": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "unordered_map": "cpp",
+        "map": "cpp",
+        "algorithm": "cpp"
     }
 }
